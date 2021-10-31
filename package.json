@@ -1,0 +1,34 @@
+{
+  "name": "keyv-storage",
+  "version": "0.1.0",
+  "description": "Simple key-value storage with support for multiple backends",
+  "main": "build/index.js",
+  "scripts": {
+    "start": "npm run build && node build/index.js",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kangfenmao/keyv-storage.git"
+  },
+  "keywords": [
+    "javascript",
+    "key",
+    "value",
+    "storage",
+    "store"
+  ],
+  "author": "kangfenmao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kangfenmao/keyv-storage/issues"
+  },
+  "homepage": "https://github.com/kangfenmao/keyv-storage#readme",
+  "type": "module",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
+    "eslint": "^8.1.0",
+    "typescript": "^4.4.4"
+  }
+}
