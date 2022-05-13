@@ -1,17 +1,17 @@
 import { StorageDriver } from '../types/storage-driver'
 
 class MemoryStorage implements StorageDriver {
-  data: Map<string, unknown> = new Map()
+  data: Map<string, any> = new Map()
 
   init() {
     //
   }
 
-  get(key: string): unknown {
+  get(key: string): any {
     return this.data.get(key)
   }
 
-  set(key: string, value: unknown): boolean {
+  set(key: string, value: any): boolean {
     if (!key) return handleError('set', 'a key')
     this.data.set(key, value)
     return true
@@ -25,6 +25,10 @@ class MemoryStorage implements StorageDriver {
 
   getAllKeys(): string[] {
     return Array.from(this.data.keys())
+  }
+
+  clearAll() {
+    this.data = new Map()
   }
 }
 

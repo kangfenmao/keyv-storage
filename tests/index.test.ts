@@ -1,4 +1,4 @@
-import KeyvStorage from '../src/index'
+import KeyvStorage from '../lib/index'
 
 const storage = new KeyvStorage()
 

@@ -1,15 +1,16 @@
 import MemoryStorage from './adapter/MemoryStorage'
+import { KeyvStorageExpiredValue, KeyvStorageParams } from './types/keyv-storage'
 import { StorageDriver } from './types/storage-driver'
-import { isJSON } from './utils'
 
 class KeyvStorage {
   storage: StorageDriver
+  env = ''
   expiredSuffix = ':expired_time'
-  envSuffix = ''
   keepSuffix = '{[keep]}'
 
-  constructor(driver: StorageDriver = new MemoryStorage()) {
-    this.storage = driver
+  constructor(params: KeyvStorageParams = {}) {
+    this.storage = params.driver || new MemoryStorage()
+    this.env = params.env || ''
   }
 
   async init() {
@@ -32,7 +33,7 @@ class KeyvStorage {
    */
   private removeExpiredKey(key: string) {
     if (key.indexOf(this.expiredSuffix) > -1) {
-      const cacheValue = this.storage.get(key)
+      const cacheValue = this.storage.get(key) as KeyvStorageExpiredValue
 
       if (!cacheValue) {
         return
@@ -55,7 +56,7 @@ class KeyvStorage {
    * @param {string} key
    */
   private getKey(key: string) {
-    return `${key}${this.envSuffix}`
+    return `${key}${this.env}`
   }
 
   /**
@@ -63,7 +64,7 @@ class KeyvStorage {
    * @param {string} key
    */
   private getExpiredKey(key: string) {
-    return `${key}${this.expiredSuffix}${this.envSuffix}`
+    return `${key}${this.expiredSuffix}${this.env}`
   }
 
   /**
@@ -76,13 +77,7 @@ class KeyvStorage {
 
     this.removeExpiredKey(expiredKeyName)
 
-    let value = this.storage.get(keyName)
-
-    if (isJSON(value)) {
-      value = JSON.parse(value)
-    }
-
-    return value
+    return this.storage.get(keyName)
   }
 
   /**
@@ -109,10 +104,6 @@ class KeyvStorage {
       })
     }
 
-    if (typeof data === 'object') {
-      data = JSON.stringify(data)
-    }
-
     return this.storage.set(this.getKey(key), data)
   }
 
@@ -137,7 +128,7 @@ class KeyvStorage {
    */
   keys(): string[] {
     this.removeExpiredKeys()
-    return this.storage.getAllKeys().map((key: string) => key.replace(this.envSuffix, ''))
+    return this.storage.getAllKeys().map((key: string) => key.replace(this.env, ''))
   }
 
   /**
@@ -154,8 +145,7 @@ class KeyvStorage {
    * Clear all
    */
   async clearAll() {
-    const keysWillRemove = this.storage.getAllKeys()
-    keysWillRemove.forEach((key: string) => this.storage.remove(key))
+    this.storage.clearAll()
   }
 }
 
