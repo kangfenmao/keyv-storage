@@ -4,11 +4,13 @@
   "description": "Simple key-value storage with support for multiple backends",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "private": false,
   "scripts": {
     "start": "npm run build && node build/index.js",
     "build": "tsc",
     "postinstall": "npm run build",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "publish": "yarn prepublish && npm publish --access public"
   },
   "repository": {
     "type": "git",
@@ -28,9 +30,10 @@
   },
   "homepage": "https://github.com/kangfenmao/keyv-storage#readme",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.2.0",
-    "@typescript-eslint/parser": "^5.2.0",
-    "eslint": "^8.1.0",
-    "typescript": "^4.4.4"
-  }
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
+    "eslint": "^9.7.0",
+    "typescript": "^5.5.3"
+  },
+  "packageManager": "yarn@4.3.1"
 }
